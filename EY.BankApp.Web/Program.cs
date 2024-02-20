@@ -13,7 +13,10 @@ builder.Services.AddDbContext<BankContext>(opt =>
     opt.UseSqlServer("server=localhost\\SQLEXPRESS;database=BankDb;integrated security=true;trusted_connection=true");
 });
 builder.Services.AddScoped<IApplicationUserRepository,ApplicationUserRepository>();
-builder.Services.AddScoped<IUserMapper,ApplicationUserMapper>();
+builder.Services.AddScoped<IApplicatonUserMapper,ApplicationUserMapper>();
+builder.Services.AddScoped<IAccountMapper,AccountMapper>();
+builder.Services.AddScoped<IAccountRepository,AccountRepository>();
+builder.Services.AddScoped(typeof(IRepository<>),typeof(Repository<>));
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

@@ -10,28 +10,31 @@ namespace EY.BankApp.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly BankContext _bankContext;
-        private readonly IApplicationUserRepository _applicationUserRepository;
-        private readonly IUserMapper _userMapper;
+        
+        //private readonly IAccountRepository _accountRepository;
+        //private readonly IApplicationUserRepository _applicationUserRepository;
+        //private readonly IApplicatonUserMapper _applicatonUserMapper;
+        //private readonly IAccountMapper _accountMapper;
 
-        public AccountController(BankContext context, IApplicationUserRepository userRepository, IUserMapper userMapper)
+        private readonly IRepository<Account> _accountRepository;
+        private readonly IRepository<ApplicationUser> _applicatonUserRepository;
+
+        public AccountController(IRepository<Account> accountRepository, IRepository<ApplicationUser> applicatonUserRepository)
         {
-            _bankContext = context;
-            _applicationUserRepository = userRepository;
-            _userMapper = userMapper;
+            _accountRepository = accountRepository;
+            _applicatonUserRepository = applicatonUserRepository;
         }
 
         public IActionResult Create(int id)
         {
-            var userInfo = _userMapper.MapToUserList(_applicationUserRepository.GetById(id));
+            var userInfo = _applicatonUserRepository.GetById(id);
             return View(userInfo);
         }
 
         [HttpPost]
         public IActionResult Create(AccountCreateModel model)
         {
-            _bankContext.Add(new Account { AccountNumber = model.AccountNumber, Balance = model.Balance, ApplicationUserId = model.ApplicationUserId });
-            _bankContext.SaveChanges();
+            _accountRepository.Create(new Account { AccountNumber = model.AccountNumber ,Balance=model.Balance,ApplicationUserId=model.ApplicationUserId});
             return RedirectToAction("Index", "Home");
         }
     }

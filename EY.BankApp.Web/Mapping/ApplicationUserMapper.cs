@@ -3,7 +3,7 @@ using EY.BankApp.Web.Models;
 
 namespace EY.BankApp.Web.Mapping
 {
-    public class ApplicationUserMapper:IUserMapper
+    public class ApplicationUserMapper:IApplicatonUserMapper
     {public List<UserListModel> MapToListOfUserList(List<ApplicationUser>users)
         {
             return users.Select(x => new UserListModel

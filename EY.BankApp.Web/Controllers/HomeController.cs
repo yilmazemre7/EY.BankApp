@@ -12,12 +12,12 @@ namespace EY.BankApp.Web.Controllers
     public class HomeController : Controller
     {
 
-        private readonly BankContext _context;
+       
         private readonly IApplicationUserRepository _applicationUserRepository;
-        private readonly IUserMapper _userMapper;
-        public HomeController(BankContext context,IApplicationUserRepository applicationUserRepository, IUserMapper userMapper)
+        private readonly IApplicatonUserMapper _userMapper;
+        public HomeController(,IApplicationUserRepository applicationUserRepository, IApplicatonUserMapper userMapper)
         {
-            _context = context;
+           
             _applicationUserRepository = applicationUserRepository;
             _userMapper = userMapper;
 
