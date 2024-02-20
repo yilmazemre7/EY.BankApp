@@ -1,0 +1,22 @@
+﻿@addTagHelper *,EY.BankApp.Web
+@model ApplicationUser
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+
+    <div class="col-6">
+        <p>
+            Hesap ekleyeceğiniz Kullanıcının Adı : @Model.Name
+        </p>
+        <p>
+            Kullanıcının soyadı : @Model.Surname
+        </p>
+        <p>Kullanıcının Aktif Hesap Sayısı :<get-account-count app-user-id="@Model.Id"></get-account-count> </p>
+    </div>
+
+    <div class="col-6">
+        <h4>Ekleme islemi</h4>
+    </div>
+</div>

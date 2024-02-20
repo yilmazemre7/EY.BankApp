@@ -1,8 +1,30 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model List<ApplicationUser>
+@addTagHelper *,EY.BankApp.Web
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<table class="mt-4 table table-hover table-bordered table-sm">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Account Count</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Surname</td>
+                <td> <get-account-count app-user-id="@item.Id"></get-account-count> </td>
+                <td>
+                    <a asp-action="Create" asp-controller="Account" asp-route-id="@item.Id">Create New Account</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
