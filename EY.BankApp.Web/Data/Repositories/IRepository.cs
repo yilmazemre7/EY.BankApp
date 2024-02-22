@@ -1,4 +1,6 @@
-﻿namespace EY.BankApp.Web.Data.Repositories
+﻿using System.Linq;
+
+namespace EY.BankApp.Web.Data.Repositories
 {
     public interface IRepository<T> where T : class, new()
     {
@@ -9,6 +11,7 @@
         List<T> GetAll();
         void Update(T entity);
 
+        IQueryable<T> GetQueryable();
 
     }
 }

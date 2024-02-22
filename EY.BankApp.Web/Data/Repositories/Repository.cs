@@ -32,9 +32,14 @@ namespace EY.BankApp.Web.Data.Repositories
         }
         public void Update(T entity) {
 
-            _context.Update(entity);
+            _context.Set<T>().Update(entity);
             _context.SaveChanges();
         
+        }
+
+        public IQueryable<T> GetQueryable()
+        {
+          return _context.Set<T>().AsQueryable();
         }
     }
 }

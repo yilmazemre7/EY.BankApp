@@ -10,32 +10,70 @@ namespace EY.BankApp.Web.Controllers
 {
     public class AccountController : Controller
     {
-        
-        //private readonly IAccountRepository _accountRepository;
-        //private readonly IApplicationUserRepository _applicationUserRepository;
-        //private readonly IApplicatonUserMapper _applicatonUserMapper;
-        //private readonly IAccountMapper _accountMapper;
+
+        ////private readonly IAccountRepository _accountRepository;
+        ////private readonly IApplicationUserRepository _applicationUserRepository;
+        ////private readonly IApplicatonUserMapper _applicatonUserMapper;
+        ////private readonly IAccountMapper _accountMapper;
+
+        //private readonly IRepository<Account> _accountRepository;
+        //private readonly IRepository<ApplicationUser> _applicatonUserRepository;
+
+        //public AccountController(IRepository<Account> accountRepository, IRepository<ApplicationUser> applicatonUserRepository)
+        //{
+        //    _accountRepository = accountRepository;
+        //    _applicatonUserRepository = applicatonUserRepository;
 
         private readonly IRepository<Account> _accountRepository;
-        private readonly IRepository<ApplicationUser> _applicatonUserRepository;
+        private readonly IRepository<ApplicationUser> _applicationUserRepository;
 
-        public AccountController(IRepository<Account> accountRepository, IRepository<ApplicationUser> applicatonUserRepository)
+        public AccountController(IRepository<ApplicationUser> applicationUserRepository, IRepository<Account> accountRepository)
         {
+            _applicationUserRepository = applicationUserRepository;
             _accountRepository = accountRepository;
-            _applicatonUserRepository = applicatonUserRepository;
         }
+
 
         public IActionResult Create(int id)
         {
-            var userInfo = _applicatonUserRepository.GetById(id);
-            return View(userInfo);
+            var userInfo = _applicationUserRepository.GetById(id);
+            return View(new UserListModel { Id=userInfo.Id,Name=userInfo.Name,Surname=userInfo.Surname});
         }
 
         [HttpPost]
         public IActionResult Create(AccountCreateModel model)
         {
-            _accountRepository.Create(new Account { AccountNumber = model.AccountNumber ,Balance=model.Balance,ApplicationUserId=model.ApplicationUserId});
+            _accountRepository.Create(new Account { AccountNumber = model.AccountNumber, Balance = model.Balance, ApplicationUserId = model.ApplicationUserId });
             return RedirectToAction("Index", "Home");
         }
+
+         [HttpGet]
+         public IActionResult GetByUserId(int userId)
+        {
+            var query = _accountRepository.GetQueryable();
+            var accounts=query.Where(x => x.Id == userId).ToList();
+            var user=_applicationUserRepository.GetById(userId);
+            ViewBag.FullName = user.Name + " " + user.Surname;
+            var list=new List<AccountListModel>();
+
+            foreach (var item in accounts)
+            {
+                list.Add(new()
+                {
+                    AccountNumber = item.AccountNumber,
+                    ApplicationUserId = item.ApplicationUserId,
+                    Balance = item.Balance,
+                    
+                    Id = item.Id
+                });
+
+               
+
+            }
+            return View(list);
+
+        }
+
+          
     }
 }

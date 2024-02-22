@@ -15,7 +15,7 @@ namespace EY.BankApp.Web.Controllers
        
         private readonly IApplicationUserRepository _applicationUserRepository;
         private readonly IApplicatonUserMapper _userMapper;
-        public HomeController(,IApplicationUserRepository applicationUserRepository, IApplicatonUserMapper userMapper)
+        public HomeController(IApplicationUserRepository applicationUserRepository, IApplicatonUserMapper userMapper)
         {
            
             _applicationUserRepository = applicationUserRepository;
