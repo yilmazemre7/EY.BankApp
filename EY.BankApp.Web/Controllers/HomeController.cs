@@ -1,6 +1,8 @@
 ﻿using EY.BankApp.Web.Data.Context;
+using EY.BankApp.Web.Data.Entities;
 using EY.BankApp.Web.Data.Interfaces;
 using EY.BankApp.Web.Data.Repositories;
+using EY.BankApp.Web.Data.UnitOfWork;
 using EY.BankApp.Web.Mapping;
 using EY.BankApp.Web.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -11,14 +13,12 @@ namespace EY.BankApp.Web.Controllers
 {
     public class HomeController : Controller
     {
-
-       
-        private readonly IApplicationUserRepository _applicationUserRepository;
+        private readonly IUow _uow;
         private readonly IApplicatonUserMapper _userMapper;
-        public HomeController(IApplicationUserRepository applicationUserRepository, IApplicatonUserMapper userMapper)
+        public HomeController(IUow uow, IApplicatonUserMapper userMapper)
         {
-           
-            _applicationUserRepository = applicationUserRepository;
+
+            _uow = uow;
             _userMapper = userMapper;
 
 
@@ -26,7 +26,7 @@ namespace EY.BankApp.Web.Controllers
 
         public IActionResult Index()
         {
-            return View(_userMapper.MapToListOfUserList(_applicationUserRepository.GetAll()));
+            return View(_userMapper.MapToListOfUserList(_uow.GetRepository<ApplicationUser>().GetAll()));
         }
 
     }

@@ -1,6 +1,7 @@
 using EY.BankApp.Web.Data.Context;
 using EY.BankApp.Web.Data.Interfaces;
 using EY.BankApp.Web.Data.Repositories;
+using EY.BankApp.Web.Data.UnitOfWork;
 using EY.BankApp.Web.Mapping;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
@@ -12,11 +13,12 @@ builder.Services.AddDbContext<BankContext>(opt =>
 {
     opt.UseSqlServer("server=localhost\\SQLEXPRESS;database=BankDb;integrated security=true;trusted_connection=true");
 });
-builder.Services.AddScoped<IApplicationUserRepository,ApplicationUserRepository>();
-builder.Services.AddScoped<IApplicatonUserMapper,ApplicationUserMapper>();
-builder.Services.AddScoped<IAccountMapper,AccountMapper>();
-builder.Services.AddScoped<IAccountRepository,AccountRepository>();
-builder.Services.AddScoped(typeof(IRepository<>),typeof(Repository<>));
+//builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+//builder.Services.AddScoped<IApplicationUserRepository,ApplicationUserRepository>();
+//builder.Services.AddScoped<IAccountRepository,AccountRepository>();
+builder.Services.AddScoped<IApplicatonUserMapper, ApplicationUserMapper>();
+builder.Services.AddScoped<IAccountMapper, AccountMapper>();
+builder.Services.AddScoped<IUow, Uow>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
